@@ -38,9 +38,10 @@ fn calc_value(people: i32) -> i32 {
 
     let total = 0;
     for i in &mut v {
+        let index: usize = *i as usize;
         println!("Enter Value for person {}", i);
-        v[i] = get_integer();
-        total += v[i];
+        v[index] = get_integer();
+        total += v[index];
     }
 
     let avg = total/people;
@@ -48,13 +49,14 @@ fn calc_value(people: i32) -> i32 {
     let change_hands = 0;
 
     for i in &v {
-        if v[i] > avg {
-            let owed = v[i] - avg;
+        let index: usize = *i as usize;
+        if v[index] > avg {
+            let owed = v[index] - avg;
             println!("Person {} is owed ${}", i, owed);
         } else {
-            let must_pay = avg - v[i];
+            let must_pay = avg - v[index];
             println!("Person {} must pay ${}", i, must_pay);
-            change_hands += v[i];
+            change_hands += v[index];
         }
     }
     change_hands
