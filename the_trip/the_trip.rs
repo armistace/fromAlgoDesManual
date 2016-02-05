@@ -31,32 +31,36 @@ fn get_integer() -> i32 {
 //I would  use a linked list to this properly but to answer their specific question this will do :|
 
 fn calc_value(people: i32) -> i32 {
-    
+
+    println!("Entering calc_value");
     let mut total = 0;
 
     let mut v = vec![people; 0];
 
-    let total = 0;
+    let mut count = 0;
     for i in &mut v {
-        let index: usize = *i as usize;
-        println!("Enter Value for person {}", i);
-        v[index] = get_integer();
-        total += v[index];
+        //let index: usize = *i as usize;
+        count += 1;
+        println!("Enter Value for person {}", count);
+        *i = get_integer();
+        total += *i;
     }
 
     let avg = total/people;
     
-    let change_hands = 0;
+    let mut change_hands = 0;
 
+    count = 0;
     for i in &v {
-        let index: usize = *i as usize;
-        if v[index] > avg {
-            let owed = v[index] - avg;
-            println!("Person {} is owed ${}", i, owed);
+        //let index: usize = *i as usize;
+        count += 1;
+        if *i > avg {
+            let owed = *i - avg;
+            println!("Person {} is owed ${}", count, owed);
         } else {
-            let must_pay = avg - v[index];
-            println!("Person {} must pay ${}", i, must_pay);
-            change_hands += v[index];
+            let must_pay = avg - *i;
+            println!("Person {} must pay ${}", count, must_pay);
+            change_hands += *i;
         }
     }
     change_hands
@@ -66,7 +70,7 @@ fn main () {
 
     println!("How many people went on the trip: ");
 
-    let mut people = get_integer();
+    let people = get_integer();
 
     let change_hands = calc_value(people);
 
