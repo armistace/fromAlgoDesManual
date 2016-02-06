@@ -70,10 +70,63 @@ fn get_string() -> String {
     return_string
 }
 
+fn lets_vote() -> String {
+    let mut candidates_num = 21;
+
+    while candidates_num >= 20 {
+        print!("Please enter number of candidates (less than 20): ");
+        candidates_num = get_integer();
+        print!("\n");
+    }
+    
+    let mut candidates_names =vec![""; candidates_num as usize];
+    
+    let mut count = 0;
+    
+    for i in & mut candidates_names {
+        
+        count += 1;
+
+        print!("Please enter candidate {} name: ", count);
+
+        *i = get_string();
+
+        print!("\n");
+    }
+
+    let mut voter_num = 1001;
+    
+    while voter_num >= 1000 {
+        print!("Please enter number of voters (less than 1000): ");
+
+        voter_num = get_integer();
+
+        print!("\n");
+    }
+
+    let mut votes = vec![vec![0; candidates_num as usize]; voter_num as usize];
+    
+    let mut counti = 0;
+    
+    for i in &mut votes {
+        
+        counti += 1;
+        println!("Voter {} please enter votes",counti);
+        let mut countj = 0;
+
+        for j in &mut *i {
+            print!("Please enter voter for {}: ", candidates_names[countj]);
+            *j = get_integer();
+            print!("\n");
+        }
+    }
+    "Voting Complete\n"
+}
+
+fn cases_vote(cases: i32) -> [String] {
+}
+
+
 fn main() {
-    println!("so give me a string?");
-
-    let new_string = get_string();
-
-    println!("you entered {}", new_string);
+    let winning = lets_vote();
 }
