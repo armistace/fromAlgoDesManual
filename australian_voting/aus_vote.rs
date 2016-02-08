@@ -11,6 +11,7 @@ fn string_to_static_str(s: String) -> &'static str {
     }
 }
 
+#[allow(dead_code)]
 fn get_float() -> f64 {
 
     let mut return_float = -1.0;
@@ -140,9 +141,10 @@ fn lets_vote() -> &'static str {
     "Voting Complete\n"
 }
 
+/*
 fn cases_vote(cases: i32)  {
 }
-
+*/
 
 fn main() {
     let winning = lets_vote();
