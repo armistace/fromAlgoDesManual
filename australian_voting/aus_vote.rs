@@ -1,4 +1,15 @@
 use std::io;
+use std::mem;
+
+//This code makes Strings to static str
+//ripped from https://stackoverflow.com/questions/23975391/how-to-convert-string-into-static-str
+fn string_to_static_str(s: String) -> &'static str {
+    unsafe {
+        let ret = mem::transmute(&s as &str);
+        mem::forget(s);
+        ret
+    }
+}
 
 fn get_float() -> f64 {
 
@@ -58,7 +69,7 @@ fn get_integer() -> i32 {
     return_int
 }
 
-fn get_string() -> String {
+fn get_string() -> &'static str {
 
     let mut return_string = String::new();
 
@@ -67,16 +78,20 @@ fn get_string() -> String {
     reader.read_line(& mut return_string).ok()
         .expect("I have failed :(");
 
-    return_string
+
+    string_to_static_str(return_string)
 }
 
-fn lets_vote() -> String {
-    let mut candidates_num = 21;
+fn lets_vote() -> &'static str {
+    let mut candidates_num = 0;
 
-    while candidates_num >= 20 {
+    while candidates_num == 0 {
         print!("Please enter number of candidates (less than 20): ");
         candidates_num = get_integer();
         print!("\n");
+        if candidates_num > 20 || candidates_num < 0 {
+            candidates_num = 20;
+        }
     }
     
     let mut candidates_names =vec![""; candidates_num as usize];
@@ -115,18 +130,21 @@ fn lets_vote() -> String {
         let mut countj = 0;
 
         for j in &mut *i {
+            countj += 1;
             print!("Please enter voter for {}: ", candidates_names[countj]);
             *j = get_integer();
             print!("\n");
         }
     }
+
     "Voting Complete\n"
 }
 
-fn cases_vote(cases: i32) -> [String] {
+fn cases_vote(cases: i32)  {
 }
 
 
 fn main() {
     let winning = lets_vote();
+    println!("{} won!", winning);
 }
