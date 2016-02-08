@@ -84,14 +84,14 @@ fn get_string() -> &'static str {
 }
 
 fn lets_vote() -> &'static str {
+
     let mut candidates_num = 0;
 
     while candidates_num == 0 {
-        print!("Please enter number of candidates (less than 20): ");
+        println!("Please enter number of candidates (less than 20): ");
         candidates_num = get_integer();
-        print!("\n");
         if candidates_num > 20 || candidates_num < 0 {
-            candidates_num = 20;
+            candidates_num = 0;
         }
     }
     
@@ -103,21 +103,19 @@ fn lets_vote() -> &'static str {
         
         count += 1;
 
-        print!("Please enter candidate {} name: ", count);
+        println!("Please enter candidate {} name: ", count);
 
         *i = get_string();
 
-        print!("\n");
     }
 
     let mut voter_num = 1001;
     
     while voter_num >= 1000 {
-        print!("Please enter number of voters (less than 1000): ");
+        println!("Please enter number of voters (less than 1000): ");
 
         voter_num = get_integer();
 
-        print!("\n");
     }
 
     let mut votes = vec![vec![0; candidates_num as usize]; voter_num as usize];
@@ -132,13 +130,13 @@ fn lets_vote() -> &'static str {
 
         for j in &mut *i {
             countj += 1;
-            print!("Please enter voter for {}: ", candidates_names[countj]);
+            println!("Please enter vote for {} ", candidates_names[countj - 1]);
             *j = get_integer();
-            print!("\n");
         }
     }
+    println!("variable vote: {:?}", votes);
 
-    "Voting Complete\n"
+    "Voting Complete"
 }
 
 /*
