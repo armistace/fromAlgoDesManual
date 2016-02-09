@@ -11,6 +11,10 @@ fn string_to_static_str(s: String) -> &'static str {
     }
 }
 
+/*
+ * asks user for float
+ * no prompt!
+ */
 #[allow(dead_code)]
 fn get_float() -> f64 {
 
@@ -41,14 +45,18 @@ fn get_float() -> f64 {
     return_float
 }
 
+/*
+ * asks user for integer
+ * No prompt!
+ */
 fn get_integer() -> i32 {
 
-    let mut return_int = -1i32;
+    let mut return_int = 0i32;
 
     //I suspect I am doing an ugly hack to makes this work in rust
     //BUT while return_int is  -1 I just keep on asking
     //TODO: post to stack overflow to find the correct way to handle this case
-    while return_int < 0 {
+    while return_int == 0 {
 
         let mut return_txt = String::new();
 
@@ -62,7 +70,7 @@ fn get_integer() -> i32 {
 
         return_int = match return_opt {
             Some(return_int)    => return_int,
-            None                => -1,
+            None                => 0,
 
         };
     }
@@ -70,6 +78,10 @@ fn get_integer() -> i32 {
     return_int
 }
 
+/*
+ * asks user for string and returns value stripped of 
+ * white space
+ */
 fn get_string() -> &'static str {
 
     let mut return_string = String::new();
@@ -79,9 +91,13 @@ fn get_string() -> &'static str {
     reader.read_line(& mut return_string).ok()
         .expect("I have failed :(");
 
-
-    string_to_static_str(return_string)
+    string_to_static_str(return_string).trim()
 }
+
+/*
+ * builds values for and calculates 
+ * the winner for a single case
+ */
 
 fn lets_vote() -> &'static str {
 
@@ -161,16 +177,42 @@ fn lets_vote() -> &'static str {
         candid_count += 1;
     }
 
+    //given we now have the vote_tally we can calc the winner
+    let mut winner = 0;
+    let mut index_counter = 0;
+    let mut index_winner = 0;
 
-    "Voting Complete"
+    for i in & mut vote_tally {
+        if *i > winner {
+            index_winner = index_counter;
+            winner = *i;
+            index_counter += 1;
+        } else {
+            index_counter += 1;
+        }
+    }
+    
+    candidates_names[index_winner]
+
 }
 
 /*
+ * wraps let_vote() around x number of cases
+ */
 fn cases_vote(cases: i32)  {
+    let mut winners = vec![""; cases as usize];
+    let mut el_counto = 1;
+    for i in & mut winners {
+        println!("Please enter details for case {}.", el_counto);
+        *i = lets_vote();
+        println!("{} has won case {}.", *i, el_counto);
+        el_counto += 1;
+    }
 }
-*/
+
 
 fn main() {
-    let winning = lets_vote();
-    println!("{} won!", winning);
+    println!("Please enter number of cases: ");
+    let cases = get_integer();
+    cases_vote(cases);
 }
