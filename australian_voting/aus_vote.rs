@@ -134,7 +134,33 @@ fn lets_vote() -> &'static str {
             *j = get_integer();
         }
     }
-    println!("variable vote: {:?}", votes);
+
+    //Now I have to calculate the input above to come up with a winner
+    //votes contains each persons vote so to calculate 
+    //I need to tally [[x]voter] will be the vote
+    //for candidates_name[x]
+    
+    let mut vote_tally = vec![0; candidates_num as usize];
+    let mut voter_count = 0;
+
+    for i in & mut vote_tally {
+        let mut tally = 0;
+        
+        for voter in  & mut votes {
+            tally += voter[voter_count];
+        }
+        voter_count += 1;
+
+        *i = tally;
+    }
+    
+    let mut candid_count = 0;
+
+    for i in & mut candidates_names {
+        println!("{} Total Votes: {}", *i, vote_tally[candid_count]);
+        candid_count += 1;
+    }
+
 
     "Voting Complete"
 }
